@@ -1,7 +1,6 @@
 ﻿
 #include <iostream>
 #include <cmath>
-#include <string>
 
 using namespace std;
 
@@ -11,6 +10,7 @@ void ChooseClaster(int amountPoint, int amountClaster, double** const arr, const
 void Algo(double** arrClasters, double** Points, double** arr, int size, int cols, int rows);
 void KmeansMethod(double** arrClasters, double** Points, double** arr, double** Result, int size,int cols,int rows);
 void Classification(double** arr, double** arrClaster, double** Result, int cols, int size);
+void CMemory(double** arr, int size);
 void Form(int value);
 
 int main()
@@ -60,29 +60,10 @@ int main()
 
     KmeansMethod(Clasters, RestPoint, ParametrPoint, ResultClassification, rest, cols, rows);
 
-    for (int keyWhileDelete = 0; keyWhileDelete < rows; keyWhileDelete++)
-    {
-        delete[] ParametrPoint[keyWhileDelete];
-    }
-    delete[] ParametrPoint;
-
-    for (int keyWhileDelete = 0; keyWhileDelete < rows; keyWhileDelete++)
-    {
-        delete[] Clasters[keyWhileDelete];
-    }
-    delete[] Clasters;
-
-    for (int keyWhileDelete = 0; keyWhileDelete < rows; keyWhileDelete++)
-    {
-        delete[] RestPoint[keyWhileDelete];
-    }
-    delete[] RestPoint;
-
-    for (int keyWhileDelete = 0; keyWhileDelete < 2; keyWhileDelete++)
-    {
-        delete[] ResultClassification[keyWhileDelete];
-    }
-    delete[] ResultClassification;
+    CMemory(ParametrPoint, rows);
+    CMemory(Clasters, rows);
+    CMemory(RestPoint, rows);
+    CMemory(ResultClassification, 2);
 }
 
 void FillParametrForPoint(double** arr, const int rows, const int cols)
@@ -432,6 +413,14 @@ void Classification(double** arr, double** arrClaster, double** Result, int cols
         }
         cout << endl;
     }
+}
+void CMemory(double** arr, int size)
+{
+    for(int keyDeleteMemory = 0; keyDeleteMemory< size;keyDeleteMemory++)
+    {
+        delete[] arr[keyDeleteMemory];
+    }
+    delete arr;
 }
 
 void Form(int value)
