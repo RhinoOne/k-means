@@ -11,6 +11,7 @@ void Algo(double** arrClasters, double** Points, double** arr, int size, int col
 void KmeansMethod(double** arrClasters, double** Points, double** arr, double** Result, int size,int cols,int rows);
 void Classification(double** arr, double** arrClaster, double** Result, int cols, int size);
 void CMemory(double** arr, int size);
+void CArr(double** arr, int rows, int cols);
 void Form(int value);
 
 int main()
@@ -20,47 +21,31 @@ int main()
     int cols = 6;
     int amountClater = 0;
     int rest = 0;
-    double** ParametrPoint = new double* [rows];
 
-
-    for (int keyWhile = 0; keyWhile < rows; keyWhile++)
-    {
-        ParametrPoint[keyWhile] = new double[cols];
-    }
+    double** ParametrPoint = new double* [rows];//инициализация массивов | вывозов функций
+    CArr(ParametrPoint, rows, cols);
 
     FillParametrForPoint(ParametrPoint, rows, cols);
-
     cout << "\n Выберете кол-во кластеров : ";
     cin >> amountClater;
+
     double** Clasters = new double* [rows];
-
-    for (int keyWhile = 0; keyWhile < rows; keyWhile++)
-    {
-        Clasters[keyWhile] = new double[amountClater];
-    }
-
+    CArr(Clasters, rows, amountClater);
 
     ChooseClaster(cols, amountClater, ParametrPoint, rows, cols, Clasters);
 
     rest = cols - amountClater;
     double** RestPoint = new double* [rows];
-    for (int keyWhile = 0; keyWhile < rows; keyWhile++)
-    {
-        RestPoint[keyWhile] = new double[rest];
-    }
+    CArr(RestPoint, rows, rest);
     Algo(Clasters, RestPoint, ParametrPoint, rest, cols, rows);
     
 
     double** ResultClassification = new double* [2];
-
-    for (int keyWhile = 0; keyWhile < 2; keyWhile++)
-    {
-        ResultClassification[keyWhile] = new double[cols];
-    }
+    CArr(ResultClassification, 2, cols);
 
     KmeansMethod(Clasters, RestPoint, ParametrPoint, ResultClassification, rest, cols, rows);
 
-    CMemory(ParametrPoint, rows);
+    CMemory(ParametrPoint, rows);//Очистка памяти
     CMemory(Clasters, rows);
     CMemory(RestPoint, rows);
     CMemory(ResultClassification, 2);
@@ -422,7 +407,13 @@ void CMemory(double** arr, int size)
     }
     delete arr;
 }
-
+void CArr(double** arr, int rows, int cols)
+{
+    for(int keyCreat =0; keyCreat < rows; keyCreat++)
+    {
+        arr[keyCreat] = new double[cols];
+    }
+}
 void Form(int value)
 {
     while (value != 0)
